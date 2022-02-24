@@ -29,9 +29,11 @@ class Vector(object):
         """Scalar multiplication"""
         return Vector(self * val for self in self.args)
 
+    @property
     def length(self):
         return len(self.args)
 
+    @property
     def mag(self):
         result = 0
         for i in range(len(self.args)):
@@ -51,5 +53,21 @@ class MatError(Exception):
     A and B must have correct number of rows and cols"""
     pass
 
-class Matrix:
-    pass
+class Matrix(object):
+    def __init__(self, *args):
+
+        """If we instantiate a matrix object with two arguments, we want these two arguments
+        (which will be integers) to be the number of rows and columns. This will construct
+        a matrix of zeroes with args[0] rows and args[1] columns"""
+
+        if len(args) == 2:
+            self.rows = args[0]
+            self.cols = args[1]
+            self.args = [[float(0) for x in range(self.cols)] for x in range(self.rows)]
+        elif len(args) == 1:
+            self.rows = len(args[0])
+            self.cols = len(args[0][0])
+            self.args = [[float(x) for x in row] for row in args[0]]
+
+    def __str__(self):
+        return f"{self.args}"
