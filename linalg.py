@@ -65,9 +65,22 @@ class Matrix(object):
             self.cols = args[1]
             self.args = [[float(0) for x in range(self.cols)] for x in range(self.rows)]
         elif len(args) == 1:
-            self.rows = len(args[0])
-            self.cols = len(args[0][0])
-            self.args = [[float(x) for x in row] for row in args[0]]
+            try:
+                self.rows = len(args[0])
+                self.cols = len(args[0][0])
+                self.args = [[float(x) for x in row] for row in args[0]]
+            except:
+                raise MatError("Cannot construct. For row or column vectors, instantiate vector object.")
 
     def __str__(self):
         return f"{self.args}"
+
+    @property
+    def dim(self):
+        return (self.rows, self.cols)
+
+    def __add__(self, alt):
+        return Matrix([[sum(pair) for pair in zip(self.args[x], alt.args[x])] for x in range(self.rows)])
+
+    def __sub__(self, alt):
+        return Matrix([[self.args[x] - alt.args[x] for self.args[x], alt.args[x] in zip(self.args[x], alt.args[x])] for x in range(self.rows)])
