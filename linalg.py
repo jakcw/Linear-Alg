@@ -75,12 +75,33 @@ class Matrix(object):
     def __str__(self):
         return f"{self.args}"
 
+
+    """Properties used for computations within other methods"""
     @property
     def dim(self):
         return (self.rows, self.cols)
+
+    @property
+    def m(self):
+        return self.rows
+
+    @property
+    def n(self):
+        return self.cols
+
 
     def __add__(self, alt):
         return Matrix([[sum(pair) for pair in zip(self.args[x], alt.args[x])] for x in range(self.rows)])
 
     def __sub__(self, alt):
         return Matrix([[self.args[x] - alt.args[x] for self.args[x], alt.args[x] in zip(self.args[x], alt.args[x])] for x in range(self.rows)])
+
+
+    def square(self):
+        """test if matrix is square (nxn)"""
+        return self.m == self.n
+
+    def det(self):
+        result = 0
+        if self.square() and self.m == 2:
+            return (self.args[0][0]  * self.args[1][1]) - (self.args[0][1] * self.args[1][0])
